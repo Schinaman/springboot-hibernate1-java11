@@ -27,7 +27,7 @@ public class User implements Serializable{
 	private String password;
 
 	@OneToMany(mappedBy = "client") //Notation que diz que é uma chave estrangeira
-	//@JoinColumn(name = "order_id") //indica a chave estrangeira no BD
+	//@JoinColumn(name = "order_id") //pq que não precisa dessa linha? pq a chave estrangeira é a client esse aqui não é chave estranhgeira da outra tabela(?)
 	private List<Order> orders = new ArrayList<>(); //Associação; na especificação do projeto diz para estanciar as coleções (new ArrayList<>() feito na declaração;
 	
 	
