@@ -12,43 +12,51 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity //jpa diz que é uma entidade do bd relacional
-@Table(name = "tb_order") //nome da tabela conflitando com o ORDER do SQL
-public class Order implements Serializable{
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity // jpa diz que é uma entidade do bd relacional
+@Table(name = "tb_order") // nome da tabela conflitando com o ORDER do SQL
+public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Instant moment;//a partir do java8 surgiu essa q	ue subistiu o Date, pq é mto melhor
 	
-	@ManyToOne //Notation que diz que é uma chave estrangeira
-	@JoinColumn(name = "cliente_id") //indica a chave estrangeira no BD
-	private User client; //Associação
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	private Instant moment;// a partir do java8 surgiu essa que subistiu o Date, pq é mto melhor
+
+	// @JsonIgnore se eu usar o JsonIgnore deste lado ele vai trazer os pedidos na
+	// chamada do Usuário
+	@ManyToOne // Notation que diz que é uma chave estrangeira
+	@JoinColumn(name = "cliente_id") // indica a chave estrangeira no BD
+	private User client; // Associação
 
 	public Order() {
 		super();
 	}
-	
+
 	public Order(Long id, Instant moment, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
 		this.client = client;
 	}
-		
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
-		
+
 	}
+
 	public Instant getMoment() {
 		return moment;
-		
 	}
+
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
@@ -56,6 +64,7 @@ public class Order implements Serializable{
 	public User getClient() {
 		return client;
 	}
+
 	public void setClient(User client) {
 		this.client = client;
 	}
@@ -77,7 +86,4 @@ public class Order implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
-
 }
-	
-	
