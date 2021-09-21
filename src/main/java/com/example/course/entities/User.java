@@ -91,6 +91,7 @@ public class User implements Serializable{
 		return orders;
 	}
 	
+	//HashCode and Equals, por padrão eu deixo só ID, mas se eu quiser comparar um produto com outro baseado em mais de um campo poderia também. "nome" por exemplo.
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
