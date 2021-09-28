@@ -15,14 +15,14 @@ import com.example.course.entities.Product;
 public class OrderItemPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-
-	//pedido e produto serao ManyToOne, com pedido e produto
+	
+	//pedido e produto serao ManyToOne, com pedido e produto //1 ref para produto e 1 referencia para pedido
 	@ManyToOne
-	@JoinColumn(name = "order_id")
+	@JoinColumn(name = "order_id") //nome da chave estrangeira no bd tabela relacional
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "product_id") 
 	private Product product;
 	
 	//essa clase não tem construtor
@@ -38,7 +38,7 @@ public class OrderItemPK implements Serializable{
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	//preciso declarar produto e pedido; pq são os 2 que identificam o item
+	//preciso declarar produto e pedido; pq são os 2 que identificam o item // para comparar item de pedido eu preciso comparar os 2 juntos.
 	@Override
 	public int hashCode() {
 		return Objects.hash(order, product);

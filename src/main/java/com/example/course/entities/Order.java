@@ -2,7 +2,9 @@ package com.example.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.course.entities.enums.OrderStatus;
@@ -33,8 +36,12 @@ public class Order implements Serializable {
 	// chamada do Usuário
 	@ManyToOne // Notation que diz que é uma chave estrangeira
 	@JoinColumn(name = "cliente_id") // indica a chave estrangeira no BD
-	private User client; // Associação
+	private User client; // Associação //chamei um JsonIgnore em OrderItem pra n dar ruim ref ciclica
 
+	//Lá no meu OrderItem eu tenho o ItemOrder PK, e este sim é que terá uma associação ManyToOne com o pedido. quando for mapear meu order vou ter que fazer o macete abaixo.
+	@OneToMany (mappedBy = "id.order") //estou mapeando id.order pq no OrderItem eu tenho o Id, mas quem mapeia de fato é a classe OrderItem PK, por isso preciso chamar pela id
+	private Set<OrderItem> items = new HashSet<>(); //chamei um JsonIgnore em OrderItem pra n dar ruim ref ciclica, mas neste cas vai no getOrder; se vc ver no User ele vai direto no atributo (List<Order> orders)
+	
 	public Order() {
 		super();
 	}
@@ -82,6 +89,11 @@ public class Order implements Serializable {
 			this.orderStatus = orderStatus.getCode();
 		}
 	}
+	
+	public Set<OrderItem> getItem(){
+		return items;
+	}
+	
 
 	@Override
 	public int hashCode() {

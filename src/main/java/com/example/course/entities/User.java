@@ -29,7 +29,7 @@ public class User implements Serializable{
 	
 	@JsonIgnore// para dar não loop infinito nas chamada Json pq User instancia Order e Order instancia User; precisa ter em 1 dos lados User ou Order;
 	//Lazy Loading = definição. quando vc tem uma associação para muitos User ->*Orders, o JPA por padrão não carrega no Json os muitos; agora se for pra ToOne carrega; pra não estourar memoria e trafego;
-	@OneToMany(mappedBy = "client") //Notation que diz que é uma chave estrangeira
+	@OneToMany(mappedBy = "client") //Notation que diz que é uma chave estrangeira // mapeamento do cliente na classe Pedido @ManyToOne atributo (User client)
 	//@JoinColumn(name = "order_id") //pq que não precisa dessa linha? pq a chave estrangeira é a client esse aqui não é chave estranhgeira da outra tabela(?)
 	private List<Order> orders = new ArrayList<>(); //Associação; na especificação do projeto diz para estanciar as coleções (new ArrayList<>() feito na declaração;
 	
