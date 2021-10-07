@@ -39,14 +39,55 @@ public class OrderItem implements Serializable {
 	public Order getOrder() {
 		return id.getOrder();
 	}
-	
-	public void setOrder(Order order) {
-		id.setOrder(order);
-	}
-	
+    
+	//@JsonIgnore //esse Ignore veio da alteração que eu fiz em Produtos; acho que aqui (mappedBy = "id.product") (?confuso) //Pra não dar recorrencia circular no json
 	public Product getProduct() {
 		return id.getProduct();
 	}
+/*// Output se eu usasse o Ignore aqui no getOrder; só que eu não quero ao buscar um produto apareça os pedidos; eu quero que ao buscar um pedido apareça os items do pedidos e para cada item um produto; nesse caso vou inverter; vou Ignorar o getOrder da classe Product
+	  {
+	         "id": 3,
+        "name": "Macbook Pro",
+        "descrption": "Nam eleifend maximus tortor, at mollis.",
+        "price": 1250.0,
+        "imgUrl": "",
+        "categories": [
+            {
+                "id": 3,
+                "name": "Computers"
+            }
+        ],
+        "order": [
+            {
+                "id": 1,
+                "moment": "2019-06-20T19:53:07Z",
+                "orderStatus": "PAID",
+                "client": {
+                    "id": 1,
+                    "name": "Maria Brown",
+                    "email": "maria@gmail.com",
+                    "phone": "988888888",
+                    "password": "123456"
+                },
+                "item": [
+                    {
+                        "quantity": 2,
+                        "price": 90.5
+                    },
+                    {
+                        "quantity": 1,
+                        "price": 1250.0
+                    }
+                ]
+            },
+    
+    
+	public void setOrder(Order order) {
+		id.setOrder(order);
+	}
+*/
+
+
 	
 	public void setProduct(Product product) {
 		id.setProduct(product);
