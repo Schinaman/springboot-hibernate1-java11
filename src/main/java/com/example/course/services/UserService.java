@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.course.entities.User;
 import com.example.course.repositories.UserRepository;
+import com.example.course.services.exceptions.ResourceNotFoundException;
 
 //@Component //Registra a classe como componente do Spring e ela poderá ser injetada automaticamente assim como autowired;
 //Acho que não precisa pro "UserService" pq ele já extende do JpaRepository; isso mesmo sou fd
@@ -24,7 +25,8 @@ public class UserService {
 	
 	public User findByID(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get(); //a operação get do "Optional" retorna um objeto do tipo User que estiver dentro do "Optional"
+		//reitirei na aula - 327 tratamento de exceção//return obj.get(); //a operação get do "Optional" retorna um objeto do tipo User que estiver dentro do "Optional"
+		return obj.orElseThrow(()->new ResourceNotFoundException(id)); //vou tentar dar o get se não tiver usuario vou lançar a exceção
 	}
 	
 	public User insert(User obj) { // insere no bd um objeto do tipo user
