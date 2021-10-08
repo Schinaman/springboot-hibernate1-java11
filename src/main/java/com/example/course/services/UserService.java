@@ -3,6 +3,8 @@ package com.example.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -49,8 +51,13 @@ public class UserService {
 	
 	public User update(Long id, User obj) {
 		User entity = repository.getOne(id); //"User entity" será uma entidade monitorada pelo JPA // GetOne vai instanciar um usuário, mas não vai no BD ainda, vai só deixar um objeto monitorado pelo JPA para eu trabalhar com ele e em seguida poderei fazer uma operação com ele. É melhor que utilizar o findById. ele necessariamente vai no bd e traz o objeto para gente;
-		updateData(entity, obj); //vou ter que atualizar o "entity" com os dados que vieram no "obj"
-		return repository.save(entity);
+		try {
+			updateData(entity, obj); //vou ter que atualizar o "entity" com os dados que vieram no "obj"	
+			return repository.save(entity);
+		}
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User entity, User obj) { //atualizar dados do entity com o que chegou no obj
