@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.course.entities.User;
 import com.example.course.repositories.UserRepository;
+import com.example.course.services.exceptions.DatabaseException;
 import com.example.course.services.exceptions.ResourceNotFoundException;
 
 //@Component //Registra a classe como componente do Spring e ela poderá ser injetada automaticamente assim como autowired;
@@ -34,7 +37,14 @@ public class UserService {
 	}
 	
 	public void delete(long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		}catch (EmptyResultDataAccessException e) { //deletando usuario inexistente
+			throw new ResourceNotFoundException(id);
+		}catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());//"could not execute statement; SQL [n/a]; constraint [\"FKPWLYWCCHG27NUBKWTFJP2P7YT: PUBLIC.TB_ORDER FOREIGN KEY(CLIENTE_ID) REFERENCES PUBLIC.TB_USER(ID) (1)\"; SQL statement:\ndelete from tb_user where id=? [23503-200]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement"
+		}
+		
 	}
 	
 	public User update(Long id, User obj) {
