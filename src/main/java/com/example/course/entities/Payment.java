@@ -12,6 +12,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "tb_payment")
@@ -25,6 +27,7 @@ public class Payment  implements Serializable {
 	
 	//A classe dependente é a classe Pagamento, pq o pedido pode ter 0 pagamentos; o pedido pode entrar no bd sem ter pagamento para ele; 
 	//Classe pagamento é independente; na classe dependente vou no atributo de associação e vou colocar 
+	@JsonIgnore
 	@OneToOne
 	@MapsId
 	private Order order;

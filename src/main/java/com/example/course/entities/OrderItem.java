@@ -110,6 +110,11 @@ public class OrderItem implements Serializable {
 	}
 
 	
+	public Double getSubTotal() { // a principio declarei "public Double subTotal(){". só que tem um detalhe, na plataforme Enterprise o que vale é o GET, então para aparecer no JSON preciso por getSubTotal()  
+		return price * quantity;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
