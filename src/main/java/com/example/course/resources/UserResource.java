@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,5 +51,13 @@ public class UserResource {
 	public ResponseEntity<Void> delete(@PathVariable Long id) { //@PathVariable para reconhecer como uma variavel da minhha URL
 		service.delete(id);
 		return ResponseEntity.noContent().build();				//preciso retornar a resposta //noContent retorna uma resposta vazia e tbm já trata a resposta do retorno que é 204 quando é resposta vazia
-	}															// http://localhost:8080/users/1 ao tentar deletar o usuario1 deu erro 500 pq o usuario1 tem pedidos associados, sendo assim os pedidos ficariam sem clientes e perderiamos a integridade do banco. sendo assim o BD não permiteiu 
+	}															// http://localhost:8080/users/1 ao tentar deletar o usuario1 deu erro 500 pq o usuario1 tem pedidos associados, sendo assim os pedidos ficariam sem clientes e perderiamos a integridade do banco. sendo assim o BD não permiteiu "org.hibernate.exception.ConstraintViolationException:"
+	
+	
+	@PutMapping (value = "/{id}")//Atualizar recurso; usa metodo PUT
+	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
+		obj = service.update(id, obj);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 }

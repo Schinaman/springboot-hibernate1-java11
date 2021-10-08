@@ -34,4 +34,16 @@ public class UserService {
 	public void delete(long id) {
 		repository.deleteById(id);
 	}
+	
+	public User update(Long id, User obj) {
+		User entity = repository.getOne(id); //"User entity" será uma entidade monitorada pelo JPA // GetOne vai instanciar um usuário, mas não vai no BD ainda, vai só deixar um objeto monitorado pelo JPA para eu trabalhar com ele e em seguida poderei fazer uma operação com ele. É melhor que utilizar o findById. ele necessariamente vai no bd e traz o objeto para gente;
+		updateData(entity, obj); //vou ter que atualizar o "entity" com os dados que vieram no "obj"
+		return repository.save(entity);
+	}
+
+	private void updateData(User entity, User obj) { //atualizar dados do entity com o que chegou no obj
+		entity.setName(obj.getName()); 
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+	}
 }
