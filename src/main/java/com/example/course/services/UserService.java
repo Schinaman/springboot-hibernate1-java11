@@ -18,13 +18,17 @@ public class UserService {
 	@Autowired //lê-se UserService depende do UserRepository*
 	private UserRepository repository;
 	
-	public List<User> findAll(){
+	public List<User> findAll(){ //repasso essa função pro resource; lembrando que Service é uma classe intermediaria com a logica de negócio
 		return repository.findAll();  
 	}
 	
 	public User findByID(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.get(); //a operação get do "Optional" retorna um objeto do tipo User que estiver dentro do "Optional"
+	}
+	
+	public User insert(User obj) { // insere no bd um objeto do tipo user
+		return repository.save(obj); // save por padrão já retorna o objeto salvo
 	}
 	
 }
